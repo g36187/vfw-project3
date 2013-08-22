@@ -48,6 +48,7 @@ function showYou(){
 // go through local storage and get data .. loop as necessary
 	for (i=0, stori=localStorage.length; i<stori; i++){
 		var makeli = document.createElement('li');
+		var linkList = document.createElement('li');
 		addList.appendChild(makeli);
 		var key = localStorage.key(i);
 		var value = localStorage.getItem(key);
@@ -61,9 +62,66 @@ function showYou(){
 			addSubList.appendChild(addSubli);
 			var optSubText = obj[n][0]+" : "+obj[n][1];
 			addSubli.innerHTML = optSubText;
+			addSubList.appendChild(linkList);
 		}
+// puts links to edit / delete
+		createEditDelete(localStorage.key(i), linkList);
 	}
 }	
+
+/* add the ability to edit / delete stored data */
+function createEditDelete(key, linkList){
+	var lineBreaker = document.createElement('br');
+	var linkEdit = document.createElement('a');
+	linkEdit.href = "#";
+	linkEdit.key = key;
+	var textEdit = "Edit";
+	linkEdit.addEventListener("click", itemEdit);
+	linkEdit.innerHTML = textEdit;
+	linkList.appendChild(linkEdit);
+
+	linkList.appendChild(lineBreaker);
+
+	var linkDelete = document.createElement('a');
+	linkDelete.href = "#";
+	linkDelete.key = key;
+	var textDelete = "Delete";
+//	linkDelete.addEventListener("click", itemDelete);
+	linkDelete.innerHTML = textDelete;
+	linkList.appendChild(linkDelete);
+}
+
+function itemEdit(){
+	var value = localStorage.getItem(this.key);
+	var item = JSON.parse(value);
+	
+// add this later	toggleControls("off")
+// repop the fields in the form for editing
+
+	itemType.value = item.itype[1];
+	whatName.value = item.iname[1];
+	numberOf.value = item.inumber[1];
+
+	var handio = document.getElementById("theForm").handy;
+	for (var i=0; i<handio.length; i++){
+		if (handio[i].value == "Yes" && item.ihand[0] == "Yes"){
+			handio[i].setAttribute("checked", "checked");
+		}
+		else if (handio[i].value == "No" && item.ihand[0] == "No"){
+			handio[i].setAttribute("checked", "checked");
+		}
+		
+	}
+	notes.value = item.inotes[1];
+// remove initial listener
+	save.removeEventListener("click", storeData);
+	submit.value = "Edit Contact";
+	var editSubmit = submit;
+	editSubmit.addEventListener("click", validate);
+	editSubmit.key = this.key;
+}
+
+
 /* important buttons for navigation*/
 
 var emptiness = function (){
@@ -73,6 +131,10 @@ var emptiness = function (){
 cleary.addEventListener("click", emptiness);
 submit.addEventListener("click", storeData);
 displaya.addEventListener("click", showYou);
+
+
+
+
 
 
 //End of DOM check
