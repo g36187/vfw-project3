@@ -22,10 +22,15 @@ function checkValue(){
 
 /* actual local data storage */
 
-function storeData(){
+function storeData(key){
 	checkValue();
 /* random keygen and gather data for unique local data */
-	var id 			= Math.floor(Math.random()*9001);
+	if (!key){
+		var id 			= Math.floor(Math.random()*9001);
+	}else{
+		id = key;
+	}
+	
 	var item		= {};
 		item.itype  = ["Item Type", itemType.value];
 		item.iname  = ["Item Name", whatName.value];
@@ -86,7 +91,7 @@ function createEditDelete(key, linkList){
 	linkDelete.href = "#";
 	linkDelete.key = key;
 	var textDelete = "Delete";
-//	linkDelete.addEventListener("click", itemDelete);
+	linkDelete.addEventListener("click", itemDelete);
 	linkDelete.innerHTML = textDelete;
 	linkList.appendChild(linkDelete);
 }
@@ -96,7 +101,8 @@ function itemEdit(){
 	var item = JSON.parse(value);
 	
 // add this later	toggleControls("off")
-// repop the fields in the form for editing
+
+/* repop the fields in the form for editing */
 
 	itemType.value = item.itype[1];
 	whatName.value = item.iname[1];
@@ -114,12 +120,23 @@ function itemEdit(){
 	}
 	notes.value = item.inotes[1];
 
-// rename the submit key
+// rename the submit key and allow re-submit
 	submit.removeEventListener("click", storeData);
 	submit.value = "Edit Item";
 	var editSubmit = submit;
 	editSubmit.addEventListener("click", storeData);
 	editSubmit.key = this.key;
+}
+
+/* delete item */
+function itemDelete(){
+	var youSure = confirm ("Do you really want to delete this?");
+	if (youSure){
+		localStorage.removeItem(this.key);
+		window.location.reload();
+	}else {
+		alert ("Not deleted.");
+	}
 }
 
 
