@@ -113,13 +113,15 @@ function itemEdit(){
 		
 	}
 	notes.value = item.inotes[1];
-// remove initial listener
-	save.removeEventListener("click", storeData);
-	submit.value = "Edit Contact";
+
+// rename the submit key
+	submit.removeEventListener("click", storeData);
+	submit.value = "Edit Item";
 	var editSubmit = submit;
-	editSubmit.addEventListener("click", validate);
+	editSubmit.addEventListener("click", storeData);
 	editSubmit.key = this.key;
 }
+
 
 
 /* important buttons for navigation*/
