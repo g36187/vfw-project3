@@ -99,8 +99,6 @@ function createEditDelete(key, linkList){
 function itemEdit(){
 	var value = localStorage.getItem(this.key);
 	var item = JSON.parse(value);
-	
-// add this later	toggleControls("off")
 
 /* repop the fields in the form for editing */
 
@@ -148,10 +146,6 @@ var emptiness = function (){
 cleary.addEventListener("click", emptiness);
 submit.addEventListener("click", storeData);
 displaya.addEventListener("click", showYou);
-
-
-
-
 
 
 //End of DOM check
